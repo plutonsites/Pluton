@@ -2,6 +2,6 @@ html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
 html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
 body{margin:0;background:#fff}a{text-decoration:none}
 /* Mobil */
-#mobil_top{position:fixed;width:100%;z-index:1;top:0;padding:12px 12 5px 12px;background:#fff;box-shadow:0 4px 4px 0 rgba(0,0,0,0.12),0 4px 4px 0 rgba(0,0,0,0.20)}
+#mobil_top{position:fixed;width:100%;z-index:1;top:0;background:#fff;box-shadow:0 4px 4px 0 rgba(0,0,0,0.12),0 4px 4px 0 rgba(0,0,0,0.20)}
 #mobil_header{padding-top:5px;padding-left:12px;padding-bottom:4.5px}
 #mobil_logotip{-webkit-user-select:none;-ms-user-select:none;user-select:none}
