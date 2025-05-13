@@ -1,1 +1,1 @@
-document.getElementById("mobil_logotip").innerHTML = "<img src='pluton.png' alt='logotip' width='27'>";
+document.getElementById("mobil_logotip").innerHTML = "<img src='pluton.png' alt='logotip' width='50'>";
