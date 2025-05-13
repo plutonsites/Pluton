@@ -1,0 +1,1 @@
+document.getElementById("mobil_logotip").innerHTML = "Hello World";
