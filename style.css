@@ -4,4 +4,4 @@ body{margin:0;background:#fff}a{text-decoration:none}
 /* Mobil */
 #mobil_top{position:fixed;width:100%;z-index:1;top:0;background:#fff;box-shadow:0 4px 4px 0 rgba(0,0,0,0.12),0 4px 4px 0 rgba(0,0,0,0.20)}
 #mobil_header{padding-top:5.5px;padding-left:22px;padding-bottom:5px}
-#mobil_logotip{padding-left:2px;width:27px;-webkit-user-select:none;-ms-user-select:none;user-select:none}
+#mobil_logotip{padding-left:2px;-webkit-user-select:none;-ms-user-select:none;user-select:none}
