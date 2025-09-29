@@ -16,10 +16,5 @@ body{margin:0;background:#fff}a{text-decoration:none}
     padding: 4px 18px;
     font-size: 18px;
 }
-#w3schools.w3-left {
-    border-radius: 50px 0 0 50px;
-}
-#w3schools.w3-right {
-    border-radius: 0 50px 50px 0;
-}
+
 /* #02A4D3 */
