@@ -16,6 +16,6 @@ body{margin:0;background:#fff}a{text-decoration:none}
     padding: 8px 24px;
 }
 #w3schools.w3-left {
-    
+    border-radius: 0 50px 50px 0;
 }
 /* #02A4D3 */
