@@ -17,5 +17,7 @@ p{font-size:17px;font-family:Sans-Serif}
     padding: 4px 18px;
     font-size: 18px;
 }
-
+.panel {
+    background: #e6f7f1;
+}
 /* #02A4D3 */
