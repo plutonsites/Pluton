@@ -1,2 +1,0 @@
-# Pluton
-Pluton UZ
