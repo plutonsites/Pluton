@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const topicMeta = document.querySelector('meta[name="ai-topic"]');
   if (!topicMeta) return;
 
-const API_KEY = "sk-xxxx";
+  const API_KEY = "sk-xxxx";
 
   const topic = topicMeta.content;
   const content = document.querySelector("main").innerText;
