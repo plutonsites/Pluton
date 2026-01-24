@@ -1,15 +1,35 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const topicMeta = document.querySelector('meta[name="ai-topic"]');
-  if (!topicMeta) return;
+export default async (req) => {
+  const { topic, content } = JSON.parse(req.body);
 
-  const topic = topicMeta.content;
-  const content = document.querySelector("main").innerText;
+  const prompt = `
+Sahifa mavzusi: ${topic}
 
-  const res = await fetch("/.netlify/functions/ai-summary", {
-    method: "POST",
-    body: JSON.stringify({ topic, content })
-  });
+Quyidagi matn asosida
+faqat shu mavzuga oid,
+2-3 jumlalik qisqa AI xulosa yoz:
 
-  const data = await res.json();
-  document.getElementById("ai-summary").innerText = data.summary;
-});
+${content}
+`;
+
+  const response = await fetch(
+    "https://api-inference.huggingface.co/models/google/flan-t5-base",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        inputs: prompt
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      summary: data[0]?.generated_text || "AI xulosa mavjud emas"
+    })
+  };
+};
