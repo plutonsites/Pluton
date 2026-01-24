@@ -13,3 +13,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   const data = await res.json();
   document.getElementById("ai-summary").innerText = data.summary;
 });
+
+const API_KEY = "sk-xxxx";
