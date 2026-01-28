@@ -1,34 +1,54 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ob-havo</title>
-  <style>
-    body { font-family: Arial; text-align: center; margin-top: 50px; }
-    input, button { padding: 8px; }
-  </style>
+<meta charset="UTF-8">
+<title>O‘zbekiston ob-havo</title>
+<style>
+body { font-family: Arial; padding: 20px; }
+.city { margin: 10px 0; }
+</style>
 </head>
 <body>
 
-<input id="city" placeholder="Shahar nomi">
-<button onclick="getWeather()">Qidirish</button>
-<div id="result"></div>
+<h2>O‘zbekiston shaharlarining ob-havo maʼlumotlari</h2>
+<div id="weather"></div>
 
 <script>
-const API_KEY = "c3031c9e290537de3abc35b7696f5d16";
+const API_KEY = "API_KALITINGNI_BUYERGA_QO'Y"; // OpenWeatherMap API kalitingiz
 
-function getWeather() {
-  const city = document.getElementById("city").value;
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`)
+const cities = [
+  "Toshkent", "Andijon", "Buxoro", "Jizzax", "Namangan",
+  "Qashqadaryo", "Surxondaryo", "Xorazm", "Navoiy", "Farg'ona", "Nukus"
+];
+
+const weatherDiv = document.getElementById("weather");
+
+cities.forEach(city => {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},UZ&units=metric&appid=${API_KEY}`)
     .then(res => res.json())
     .then(data => {
-      document.getElementById("result").innerHTML =
-        `${data.name}<br>
-         ${data.main.temp}°C<br>
-         ${data.weather[0].description}`;
+      if(data.main) {
+        weatherDiv.innerHTML += `
+          <div class="city">
+            <b>${city}</b>: ${data.main.temp}°C, ${data.weather[0].description}
+          </div>
+        `;
+      } else {
+        weatherDiv.innerHTML += `
+          <div class="city">
+            <b>${city}</b>: Maʼlumot topilmadi
+          </div>
+        `;
+      }
+    })
+    .catch(err => {
+      weatherDiv.innerHTML += `
+        <div class="city">
+          <b>${city}</b>: Xato yuz berdi
+        </div>
+      `;
     });
-}
+});
 </script>
 
 </body>
