@@ -2,83 +2,69 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Butun Dunyo Soatlari</title>
+<title>Davlatlar Soati</title>
 <style>
   body {
     font-family: Arial, sans-serif;
-    background: #0f172a;
-    color: #e5e7eb;
-    padding: 20px;
-  }
-  h1 {
-    text-align: center;
-    margin-bottom: 20px;
+    background:#0f172a;
+    color:#e5e7eb;
+    padding:20px;
   }
   .clocks {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:12px;
   }
   .clock {
-    background: #1e293b;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
+    background:#1e293b;
+    padding:12px;
+    border-radius:8px;
+    text-align:center;
   }
-  .city {
-    font-size: 18px;
-    margin-bottom: 8px;
-  }
-  .time {
-    font-size: 22px;
-    font-weight: bold;
-  }
+  .name { font-size:16px; }
+  .time { font-size:22px; font-weight:bold; }
 </style>
 </head>
 <body>
 
-<h1>Butun Dunyo Soatlari</h1>
-
 <div class="clocks" id="clocks"></div>
 
 <script>
-const cities = [
-  { name: "Toshkent", tz: "Asia/Tashkent" },
-  { name: "London", tz: "Europe/London" },
-  { name: "New York", tz: "America/New_York" },
-  { name: "Tokyo", tz: "Asia/Tokyo" },
-  { name: "Dubai", tz: "Asia/Dubai" },
-  { name: "Moskva", tz: "Europe/Moscow" },
-  { name: "Sydney", tz: "Australia/Sydney" },Afghanistan
-  { name: "Afghanistan", tz: "Asia/Afghanistan" }
+const countries = [
+  { name:"Afgʻoniston", tz:"Asia/Kabul" },
+  { name:"Albaniya", tz:"Europe/Tirane" },
+  { name:"AQSh (New York)", tz:"America/New_York" },
+  { name:"Avstraliya (Sydney)", tz:"Australia/Sydney" },
+  { name:"Andorra", tz:"Europe/Andorra" },
+  { name:"Oʻzbekiston", tz:"Asia/Tashkent" }
 ];
 
-const container = document.getElementById("clocks");
+const box = document.getElementById("clocks");
 
-cities.forEach(city => {
-  const div = document.createElement("div");
-  div.className = "clock";
-  div.innerHTML = `
-    <div class="city">${city.name}</div>
-    <div class="time" id="${city.tz}">--:--:--</div>
+countries.forEach(c => {
+  const d = document.createElement("div");
+  d.className = "clock";
+  d.innerHTML = `
+    <div class="name">${c.name}</div>
+    <div class="time" id="${c.tz}">--:--:--</div>
   `;
-  container.appendChild(div);
+  box.appendChild(d);
 });
 
-function updateClocks() {
-  cities.forEach(city => {
-    const time = new Date().toLocaleTimeString("uz-UZ", {
-      timeZone: city.tz,
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
-    });
-    document.getElementById(city.tz).textContent = time;
+function update() {
+  countries.forEach(c => {
+    document.getElementById(c.tz).textContent =
+      new Date().toLocaleTimeString("uz-UZ", {
+        timeZone: c.tz,
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit"
+      });
   });
 }
 
-setInterval(updateClocks, 1000);
-updateClocks();
+setInterval(update,1000);
+update();
 </script>
 
 </body>
