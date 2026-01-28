@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>O‘zbekiston ob-havo</title>
+<style>
+body { font-family: Arial; }
+.city { margin: 8px 0; }
+</style>
+</head>
+<body>
+
+<div id="weather"></div>
+
+<script>
+const API_KEY = "840a8ec0caec0104a8633e901bdd873b";
+
+const cities = [
+  "Andijon","Buxoro","Jizzax","Namangan","Qashqadaryo",
+  "Surxondaryo","Xorazm","Toshkent","Navoiy",
+  "Nukus","Farg'ona"
+];
+
+cities.forEach(city => {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},UZ&units=metric&appid=${API_KEY}`)
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById("weather").innerHTML +=
+        `<div class="city">
+          <b>${city}</b> — ${d.main.temp}°C, ${d.weather[0].description}
+        </div>`;
+    });
+});
+</script>
+
+</body>
+</html>
