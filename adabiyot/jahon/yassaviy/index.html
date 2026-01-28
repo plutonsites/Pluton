@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Joriy ob-havo</title>
+<style>
+#weather {
+  position: fixed;
+  top: 20px; right: 20px;
+  background: #fff;
+  padding: 15px; border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+.icon { font-size: 40px; margin-bottom: 5px; }
+.temp { font-size: 24px; font-weight: bold; }
+.desc { font-size: 16px; color: #555; }
+.sunny { color: #f1c40f; }
+.cloudy { color: #7f8c8d; }
+.rainy { color: #3498db; }
+.snowy { color: #5dade2; }
+.windy { color: #95a5a6; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+
+<div id="weather">Yuklanmoqda...</div>
+
+<script>
+const API_KEY = "API_KALITINGNI_BUYERGA_QO'Y";
+
+function getIcon(weather){
+  weather = weather.toLowerCase();
+  if(weather.includes("rain")) return '<i class="fas fa-cloud-showers-heavy rainy"></i>';
+  if(weather.includes("snow")) return '<i class="fas fa-snowflake snowy"></i>';
+  if(weather.includes("cloud")) return '<i class="fas fa-cloud cloudy"></i>';
+  if(weather.includes("wind")) return '<i class="fas fa-wind windy"></i>';
+  if(weather.includes("clear")) return '<i class="fas fa-sun sunny"></i>';
+  return '<i class="fas fa-smog"></i>';
+}
+
+function uzbekDesc(weather){
+  weather = weather.toLowerCase();
+  if(weather.includes("rain")) return "Yomg‘ir";
+  if(weather.includes("snow")) return "Qor";
+  if(weather.includes("cloud")) return "Bulutli";
+  if(weather.includes("wind")) return "Shamolli";
+  if(weather.includes("clear")) return "Havo ochiq";
+  return "Noma’lum";
+}
+
+if(navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`)
+      .then(res=>res.json())
+      .then(data=>{
+        const icon = getIcon(data.weather[0].main);
+        const desc = uzbekDesc(data.weather[0].main);
+        document.getElementById("weather").innerHTML = `
+          <div class="icon">${icon}</div>
+          <div class="temp">${data.main.temp}°C</div>
+          <div class="desc">${desc}</div>
+          <div class="city">${data.name}</div>
+        `;
+      });
+  }, err=>{
+    document.getElementById("weather").innerText = "Joylashuv topilmadi";
+  });
+}else{
+  document.getElementById("weather").innerText = "Brauzer geolokatsiyani qo‘llab-quvvatlamaydi";
+}
+</script>
+
+</body>
+</html>
