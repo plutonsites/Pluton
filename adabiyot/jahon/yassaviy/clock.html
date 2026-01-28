@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Butun Dunyo Soatlari</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #e5e7eb;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .clocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+  }
+  .clock {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .city {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .time {
+    font-size: 22px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<h1>Butun Dunyo Soatlari</h1>
+
+<div class="clocks" id="clocks"></div>
+
+<script>
+const cities = [
+  { name: "Toshkent", tz: "Asia/Tashkent" },
+  { name: "London", tz: "Europe/London" },
+  { name: "New York", tz: "America/New_York" },
+  { name: "Tokyo", tz: "Asia/Tokyo" },
+  { name: "Dubai", tz: "Asia/Dubai" },
+  { name: "Moskva", tz: "Europe/Moscow" },
+  { name: "Sydney", tz: "Australia/Sydney" }
+];
+
+const container = document.getElementById("clocks");
+
+cities.forEach(city => {
+  const div = document.createElement("div");
+  div.className = "clock";
+  div.innerHTML = `
+    <div class="city">${city.name}</div>
+    <div class="time" id="${city.tz}">--:--:--</div>
+  `;
+  container.appendChild(div);
+});
+
+function updateClocks() {
+  cities.forEach(city => {
+    const time = new Date().toLocaleTimeString("uz-UZ", {
+      timeZone: city.tz,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+    document.getElementById(city.tz).textContent = time;
+  });
+}
+
+setInterval(updateClocks, 1000);
+updateClocks();
+</script>
+
+</body>
+</html>
