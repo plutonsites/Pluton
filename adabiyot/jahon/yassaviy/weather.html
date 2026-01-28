@@ -1,37 +1,33 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>O‘zbekiston ob-havo</title>
-<style>
-body { font-family: Arial; }
-.city { margin: 8px 0; }
-</style>
+  <meta charset="UTF-8">
+  <title>Ob-havo</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; }
+    input, button { padding: 8px; }
+  </style>
 </head>
 <body>
 
-<div id="weather"></div>
+<input id="city" placeholder="Shahar nomi">
+<button onclick="getWeather()">Qidirish</button>
+<div id="result"></div>
 
 <script>
-const API_KEY = "c3031c9e290537de3abc35b7696f5d16";
+const API_KEY = "API_KALITINGNI_BUYERGA_QO'Y";
 
-const cities = [
-  "Andijon","Buxoro","Jizzax","Namangan","Qashqadaryo",
-  "Surxondaryo","Xorazm","Toshkent","Navoiy",
-  "Nukus","Farg'ona"
-];
-
-cities.forEach(city => {
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},UZ&units=metric&appid=${API_KEY}`)
-    .then(r => r.json())
-    .then(d => {
-      document.getElementById("weather").innerHTML +=
-        `<div class="city">
-          <b>${city}</b> — ${d.main.temp}°C, ${d.weather[0].description}
-        </div>`;
+function getWeather() {
+  const city = document.getElementById("city").value;
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("result").innerHTML =
+        `${data.name}<br>
+         ${data.main.temp}°C<br>
+         ${data.weather[0].description}`;
     });
-});
+}
 </script>
 
 </body>
