@@ -4,22 +4,61 @@
 <meta charset="UTF-8">
 <title>O‘zbekiston ob-havo</title>
 <style>
-body { font-family: Arial; padding: 20px; }
-.city { margin: 10px 0; }
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  margin: 0;
+  background: #f0f4f8;
+}
+h2 { text-align: center; }
+
+.weather-grid {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.city {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+.city:hover { transform: translateY(-5px); }
+
+.icon { font-size: 40px; margin-bottom: 8px; }
+
+/* Responsive text */
+.temp { font-size: 24px; font-weight: bold; }
+.desc { font-size: 16px; color: #555; }
 </style>
+<!-- Font Awesome ikonlari uchun -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body>
 
 <h2>O‘zbekiston shaharlarining ob-havo maʼlumotlari</h2>
-<div id="weather"></div>
+<div id="weather" class="weather-grid"></div>
 
 <script>
-const API_KEY = "840a8ec0caec0104a8633e901bdd873b"; // OpenWeatherMap API kalitingiz
+const API_KEY = "API_KALITINGNI_BUYERGA_QO'Y";
 
 const cities = [
-  "Toshkent", "Andijon", "Buxoro", "Jizzax", "Namangan",
-  "Qashqadaryo", "Termiz", "Urganch", "Navoiy", "Farg'ona", "Nukus"
+  "Toshkent","Andijon","Buxoro","Jizzax","Namangan",
+  "Qashqadaryo","Surxondaryo","Xorazm","Navoiy","Farg'ona","Nukus"
 ];
+
+function getIcon(weather) {
+  weather = weather.toLowerCase();
+  if(weather.includes("rain")) return '<i class="fas fa-cloud-showers-heavy"></i>';
+  if(weather.includes("snow")) return '<i class="fas fa-snowflake"></i>';
+  if(weather.includes("cloud")) return '<i class="fas fa-cloud"></i>';
+  if(weather.includes("wind")) return '<i class="fas fa-wind"></i>';
+  if(weather.includes("clear")) return '<i class="fas fa-sun"></i>';
+  return '<i class="fas fa-smog"></i>'; // default
+}
 
 const weatherDiv = document.getElementById("weather");
 
@@ -27,16 +66,21 @@ cities.forEach(city => {
   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},UZ&units=metric&appid=${API_KEY}`)
     .then(res => res.json())
     .then(data => {
-      if(data.main) {
+      if(data.main){
+        const icon = getIcon(data.weather[0].main);
         weatherDiv.innerHTML += `
           <div class="city">
-            <b>${city}</b>: ${data.main.temp}°C, ${data.weather[0].description}
+            <div class="icon">${icon}</div>
+            <div class="name"><b>${city}</b></div>
+            <div class="temp">${data.main.temp}°C</div>
+            <div class="desc">${data.weather[0].description}</div>
           </div>
         `;
       } else {
         weatherDiv.innerHTML += `
           <div class="city">
-            <b>${city}</b>: Maʼlumot topilmadi
+            <div class="name"><b>${city}</b></div>
+            <div class="desc">Maʼlumot topilmadi</div>
           </div>
         `;
       }
@@ -44,7 +88,8 @@ cities.forEach(city => {
     .catch(err => {
       weatherDiv.innerHTML += `
         <div class="city">
-          <b>${city}</b>: Xato yuz berdi
+          <div class="name"><b>${city}</b></div>
+          <div class="desc">Xato yuz berdi</div>
         </div>
       `;
     });
