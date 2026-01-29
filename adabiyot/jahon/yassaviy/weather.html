@@ -54,23 +54,6 @@ const API_KEY = "840a8ec0caec0104a8633e901bdd873b";
 
 const weatherDiv = document.getElementById("weather");
 
-cities.forEach((city, i) => {
-  const box = document.createElement("div");
-  box.className = "city";
-  box.innerHTML = `<b>${city}</b> — yuklanmoqda...`;
-  weatherDiv.appendChild(box);
-
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},UZ&units=metric&appid=${API_KEY}`)
-    .then(r => r.json())
-    .then(d => {
-      box.innerHTML = `
-        <div class="icon">${getIcon(d.weather[0].main)}</div>
-        <b>${city}</b><br>
-        ${Math.round(d.main.temp)}°C<br>
-        ${uzbekDesc(d.weather[0].main)}
-      `;
-    });
-});
 
 const cities = [
   "Toshkent","Andijon","Buxoro","Jizzax","Namangan",
