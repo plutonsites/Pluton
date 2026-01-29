@@ -92,7 +92,7 @@ cities.forEach(city => {
           <div class="city">
             <div class="icon">${icon}</div>
             <div class="name"><b>${city}</b></div>
-            <div class="temp">${data.main.temp}°C</div>
+            <div class="temp">${Math.round(data.main.temp)}°C</div>
             <div class="desc">${desc}</div>
           </div>
         `;
