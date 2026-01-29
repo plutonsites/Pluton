@@ -12,8 +12,8 @@ function getIcon(w){
 
 function uzDesc(w){
   w=w.toLowerCase();
-  if(w.includes("rain")) return "&#1";
-  if(w.includes("snow")) return "Qor";
+  if(w.includes("rain")) return "&#160;";
+  if(w.includes("snow")) return "&#160;";
   if(w.includes("cloud")) return "Bulutli";
   if(w.includes("wind")) return "Shamolli";
   if(w.includes("clear")) return "Ochiq";
