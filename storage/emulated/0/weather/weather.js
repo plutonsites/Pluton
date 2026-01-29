@@ -16,7 +16,7 @@ function uzDesc(w){
   if(w.includes("snow")) return "&#160;";
   if(w.includes("cloud")) return "Bulutli";
   if(w.includes("wind")) return "Shamolli";
-  if(w.includes("clear")) return "Ochiq";
+  if(w.includes("clear")) return "&#160;";
   return "Nomaʼlum";
 }
 
