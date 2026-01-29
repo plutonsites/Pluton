@@ -14,8 +14,8 @@ function uzDesc(w){
   w=w.toLowerCase();
   if(w.includes("rain")) return "&#160;";
   if(w.includes("snow")) return "&#160;";
-  if(w.includes("cloud")) return "Bulutli";
-  if(w.includes("wind")) return "Shamolli";
+  if(w.includes("cloud")) return "&#1";
+  if(w.includes("wind")) return "&#160;";
   if(w.includes("clear")) return "&#160;";
   return "Nomaʼlum";
 }
