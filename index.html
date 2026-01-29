@@ -36,18 +36,33 @@
 
 <footer class="footer">
   <div class="footer-content">
+
     <div class="footer-text">
-      <!-- Bu yerga xohlagancha matn qo‘shing -->
       <p>© 2026 MyWebsite</p>
-      <p>Bu matnni xohlaganingizcha o‘zgartiring</p>
+      <p>Bu yerga xohlagancha matn yozishingiz mumkin</p>
     </div>
 
-    <div class="footer-astronaut">
-      <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Astronaut">
+    <!-- REAL ASTRONAUT SVG -->
+    <div class="astronaut">
+      <svg width="90" height="90" viewBox="0 0 512 512" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+
+        <circle cx="256" cy="256" r="256" fill="#0D1721"/>
+
+        <path d="M256 96c-66 0-120 54-120 120s54 120 120 120
+                 120-54 120-120S322 96 256 96z"
+              fill="#E0E0E0"/>
+
+        <path d="M176 320h160c22 0 40 18 40 40v56H136v-56
+                 c0-22 18-40 40-40z"
+              fill="#04AA6D"/>
+
+        <circle cx="256" cy="216" r="44" fill="#263238"/>
+      </svg>
     </div>
+
   </div>
 </footer>
-
 
 
 </body>
@@ -71,7 +86,7 @@ body {
 
 
 .footer {
-  background: linear-gradient(180deg, #0d1721, #000);
+  background: #000;
   color: #fff;
   padding: 40px 20px;
   font-family: Arial, sans-serif;
@@ -83,7 +98,6 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
   flex-wrap: wrap;
 }
 
@@ -93,10 +107,7 @@ body {
   color: #cfd8dc;
 }
 
-.footer-astronaut img {
-  width: 80px;
-  border-radius: 50%;
-  background: #04AA6D; /* W3Schools green */
-  padding: 6px;
+.astronaut svg {
+  filter: drop-shadow(0 0 10px #04AA6D);
 }
 </style>
