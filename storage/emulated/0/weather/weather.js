@@ -12,7 +12,7 @@ function getIcon(w){
 
 function uzDesc(w){
   w=w.toLowerCase();
-  if(w.includes("rain")) return "Yomgʻir";
+  if(w.includes("rain")) return "&#1";
   if(w.includes("snow")) return "Qor";
   if(w.includes("cloud")) return "Bulutli";
   if(w.includes("wind")) return "Shamolli";
