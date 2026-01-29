@@ -1,4 +1,4 @@
-const API_KEY = "API_KALITINGNI_BUYERGA_QO'Y";
+const API_KEY = "840a8ec0caec0104a8633e901bdd873b";
 
 function getIcon(w){
   w=w.toLowerCase();
