@@ -1,0 +1,34 @@
+const API_KEY = "API_KALITINGNI_BUYERGA_QO'Y";
+
+function getIcon(w){
+  w=w.toLowerCase();
+  if(w.includes("rain")) return "🌧️";
+  if(w.includes("snow")) return "❄️";
+  if(w.includes("cloud")) return "☁️";
+  if(w.includes("wind")) return "💨";
+  if(w.includes("clear")) return "☀️";
+  return "🌫️";
+}
+
+function uzDesc(w){
+  w=w.toLowerCase();
+  if(w.includes("rain")) return "Yomgʻir";
+  if(w.includes("snow")) return "Qor";
+  if(w.includes("cloud")) return "Bulutli";
+  if(w.includes("wind")) return "Shamolli";
+  if(w.includes("clear")) return "Ochiq";
+  return "Nomaʼlum";
+}
+
+window.loadWeather = function(selector, city="Toshkent"){
+  const el = document.querySelector(selector);
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},UZ&units=metric&appid=${API_KEY}`)
+    .then(r=>r.json())
+    .then(d=>{
+      el.innerHTML = `
+        ${getIcon(d.weather[0].main)}
+        ${Math.round(d.main.temp)}°C
+        ${uzDesc(d.weather[0].main)}
+      `;
+    });
+};
