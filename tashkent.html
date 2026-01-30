@@ -1,15 +1,15 @@
 <b id="sidebar-info">
-    Toshkent – 00:00:00 – 0°C
+    Toshkent : 00:00:00 : 0°C
 </b>
 
 <script>
 /* ===== SOZLAMALAR ===== */
 const CITY_NAME = "Toshkent";
-const API_KEY = "840a8ec0caec0104a8633e901bdd873b"; // OpenWeatherMap API kaliti
+const API_KEY = "YOUR_API_KEY"; // OpenWeatherMap API kaliti
 const CITY_QUERY = "Tashkent";
 
 /* ===== HOLAT ===== */
-let currentTemp = "°C";
+let currentTemp = "--°C";
 let currentIcon = "";
 
 /* ===== REAL VAQT (Toshkent) ===== */
@@ -44,7 +44,7 @@ function weatherIcon(main) {
 
 function updateLine(time) {
     document.getElementById("sidebar-info").textContent =
-        `${CITY_NAME} – ${time} – ${currentIcon} ${currentTemp}`;
+        `${CITY_NAME} : ${time} : ${currentIcon} ${currentTemp}`;
 }
 
 function fetchWeather() {
@@ -55,13 +55,13 @@ function fetchWeather() {
             currentIcon = weatherIcon(data.weather[0].main);
         })
         .catch(() => {
-            currentTemp = "°C";
+            currentTemp = "--°C";
             currentIcon = "";
         });
 }
 
 /* ===== ISHGA TUSHIRISH ===== */
 fetchWeather();
-setInterval(fetchWeather, 10 * 60 * 1000); // 10 daqiqada yangilanadi
+setInterval(fetchWeather, 10 * 60 * 1000);
 updateTime();
 </script>
