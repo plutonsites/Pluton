@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Toshkent ob-havo va vaqt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .widget {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 25px 35px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 280px;
+        }
+
+        .time {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            font-size: 14px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .weather {
+            font-size: 18px;
+        }
+
+        .temp {
+            font-size: 40px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="widget">
+    <div class="time" id="time">--:--:--</div>
+    <div class="date" id="date">---</div>
+
+    <div class="weather">
+        <div id="city">Toshkent</div>
+        <div class="temp" id="temp">--°C</div>
+        <div id="desc">Yuklanmoqda...</div>
+    </div>
+</div>
+
+<script>
+    // ===== REAL VAQT (Toshkent) =====
+    function updateTime() {
+        const now = new Date();
+
+        const timeFormatter = new Intl.DateTimeFormat('uz-UZ', {
+            timeZone: 'Asia/Tashkent',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+
+        const dateFormatter = new Intl.DateTimeFormat('uz-UZ', {
+            timeZone: 'Asia/Tashkent',
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        document.getElementById('time').textContent = timeFormatter.format(now);
+        document.getElementById('date').textContent = dateFormatter.format(now);
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // ===== OB-HAVO (OpenWeatherMap) =====
+    const apiKey = "YOUR_API_KEY"; // <-- SHU YERGA API KALITINGIZNI QO'YING
+    const city = "Tashkent";
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=uz&appid=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('temp').textContent =
+                Math.round(data.main.temp) + "°C";
+            document.getElementById('desc').textContent =
+                data.weather[0].description;
+        })
+        .catch(() => {
+            document.getElementById('desc').textContent =
+                "Ob-havoni yuklab bo‘lmadi";
+        });
+</script>
+
+</body>
+</html>
