@@ -1,14 +1,16 @@
 <div id="sidebar-weather">
     <div id="uz-time">--:--:--</div>
     <div id="uz-date">--.--.----</div>
+
     <div id="uz-weather">
+        <span id="uz-city">Toshkent</span>
         <span id="weather-icon">⏳</span>
         <span id="weather-temp">--°C</span>
     </div>
 </div>
 
 <script>
-/* ===== TOSHKENT REAL VAQTI (RAQAMLI) ===== */
+/* ===== TOSHKENT REAL VAQTI ===== */
 function updateTime() {
     const now = new Date(
         new Date().toLocaleString("en-US", { timeZone: "Asia/Tashkent" })
@@ -22,18 +24,15 @@ function updateTime() {
     const mo = String(now.getMonth() + 1).padStart(2, "0");
     const y = now.getFullYear();
 
-    document.getElementById("uz-time").textContent =
-        `${h}:${m}:${s}`;
-
-    document.getElementById("uz-date").textContent =
-        `${d}.${mo}.${y}`;
+    document.getElementById("uz-time").textContent = `${h}:${m}:${s}`;
+    document.getElementById("uz-date").textContent = `${d}.${mo}.${y}`;
 }
 
 setInterval(updateTime, 1000);
 updateTime();
 
-/* ===== OB-HAVO (FAKAT BELGI + HARORAT) ===== */
-const apiKey = "840a8ec0caec0104a8633e901bdd873b"; // OpenWeatherMap API kaliti
+/* ===== OB-HAVO ===== */
+const apiKey = "YOUR_API_KEY"; // OpenWeatherMap API kaliti
 const city = "Tashkent";
 const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
 
@@ -47,7 +46,6 @@ function weatherIcon(main) {
         case "Thunderstorm": return "⛈️";
         case "Mist":
         case "Fog": return "🌫️";
-        case "Wind": return "🌬️";
         default: return "🌡️";
     }
 }
