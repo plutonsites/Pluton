@@ -1,16 +1,18 @@
-<div id="sidebar-weather">
-    <b id="uz-time">--:--:--</b> |
-   <b id="uz-date">--.--.----</b -->
-
-    <div id="uz-weather">
-        <span id="uz-city">Toshkent</span>
-        <span id="weather-icon">⏳</span>
-        <span id="weather-temp">--°C</span>
-    </div>
-</div>
+<b id="sidebar-info">
+    Toshkent – 00:00:00 – 0°C
+</b>
 
 <script>
-/* ===== TOSHKENT REAL VAQTI ===== */
+/* ===== SOZLAMALAR ===== */
+const CITY_NAME = "Toshkent";
+const API_KEY = "YOUR_API_KEY"; // OpenWeatherMap API kaliti
+const CITY_QUERY = "Tashkent";
+
+/* ===== HOLAT ===== */
+let currentTemp = "--°C";
+let currentIcon = "";
+
+/* ===== REAL VAQT (Toshkent) ===== */
 function updateTime() {
     const now = new Date(
         new Date().toLocaleString("en-US", { timeZone: "Asia/Tashkent" })
@@ -20,22 +22,12 @@ function updateTime() {
     const m = String(now.getMinutes()).padStart(2, "0");
     const s = String(now.getSeconds()).padStart(2, "0");
 
-    const d = String(now.getDate()).padStart(2, "0");
-    const mo = String(now.getMonth() + 1).padStart(2, "0");
-    const y = now.getFullYear();
-
-    document.getElementById("uz-time").textContent = `${h}:${m}:${s}`;
-    document.getElementById("uz-date").textContent = `${d}.${mo}.${y}`;
+    updateLine(`${h}:${m}:${s}`);
 }
 
 setInterval(updateTime, 1000);
-updateTime();
 
 /* ===== OB-HAVO ===== */
-const apiKey = "840a8ec0caec0104a8633e901bdd873b"; // OpenWeatherMap API kaliti
-const city = "Tashkent";
-const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-
 function weatherIcon(main) {
     switch (main) {
         case "Clear": return "☀️";
@@ -50,17 +42,26 @@ function weatherIcon(main) {
     }
 }
 
-fetch(url)
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("weather-icon").textContent =
-            weatherIcon(data.weather[0].main);
+function updateLine(time) {
+    document.getElementById("sidebar-info").textContent =
+        `${CITY_NAME} – ${time} – ${currentIcon} ${currentTemp}`;
+}
 
-        document.getElementById("weather-temp").textContent =
-            Math.round(data.main.temp) + "°C";
-    })
-    .catch(() => {
-        document.getElementById("weather-icon").textContent = "❌";
-        document.getElementById("weather-temp").textContent = "";
-    });
+function fetchWeather() {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${CITY_QUERY}&units=metric&appid=${API_KEY}`)
+        .then(res => res.json())
+        .then(data => {
+            currentTemp = Math.round(data.main.temp) + "°C";
+            currentIcon = weatherIcon(data.weather[0].main);
+        })
+        .catch(() => {
+            currentTemp = "--°C";
+            currentIcon = "";
+        });
+}
+
+/* ===== ISHGA TUSHIRISH ===== */
+fetchWeather();
+setInterval(fetchWeather, 10 * 60 * 1000); // 10 daqiqada yangilanadi
+updateTime();
 </script>
