@@ -1,109 +1,76 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <title>Toshkent ob-havo va vaqt</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .widget {
-            background: rgba(0, 0, 0, 0.25);
-            padding: 25px 35px;
-            border-radius: 15px;
-            text-align: center;
-            min-width: 280px;
-        }
-
-        .time {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .date {
-            font-size: 14px;
-            margin-bottom: 20px;
-            opacity: 0.9;
-        }
-
-        .weather {
-            font-size: 18px;
-        }
-
-        .temp {
-            font-size: 40px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-    </style>
-</head>
-<body>
-
-<div class="widget">
-    <div class="time" id="time">--:--:--</div>
-    <div class="date" id="date">---</div>
-
-    <div class="weather">
-        <div id="city">Toshkent</div>
-        <div class="temp" id="temp">--°C</div>
-        <div id="desc">Yuklanmoqda...</div>
+<div id="sidebar-weather">
+    <div id="uz-time">--:--:--</div>
+    <div id="uz-date">---</div>
+    <div id="uz-weather">
+        <span id="weather-icon">⏳</span>
+        <span id="weather-text">Yuklanmoqda...</span>
+        <span id="weather-temp"></span>
     </div>
 </div>
 
 <script>
-    // ===== REAL VAQT (Toshkent) =====
-    function updateTime() {
-        const now = new Date();
+/* ===== REAL VAQT: Toshkent ===== */
+function updateTime() {
+    const now = new Date();
 
-        const timeFormatter = new Intl.DateTimeFormat('uz-UZ', {
-            timeZone: 'Asia/Tashkent',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
+    const time = new Intl.DateTimeFormat('uz-UZ', {
+        timeZone: 'Asia/Tashkent',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    }).format(now);
 
-        const dateFormatter = new Intl.DateTimeFormat('uz-UZ', {
-            timeZone: 'Asia/Tashkent',
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+    const date = new Intl.DateTimeFormat('uz-UZ', {
+        timeZone: 'Asia/Tashkent',
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    }).format(now);
 
-        document.getElementById('time').textContent = timeFormatter.format(now);
-        document.getElementById('date').textContent = dateFormatter.format(now);
+    document.getElementById('uz-time').textContent = time;
+    document.getElementById('uz-date').textContent = date;
+}
+
+setInterval(updateTime, 1000);
+updateTime();
+
+/* ===== OB-HAVO ===== */
+const apiKey = "YOUR_API_KEY"; // OpenWeatherMap API kaliti
+const city = "Tashkent";
+const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=uz&appid=${apiKey}`;
+
+function getWeatherIcon(main) {
+    switch (main) {
+        case "Clear": return "☀️";
+        case "Clouds": return "☁️";
+        case "Rain": return "🌧️";
+        case "Drizzle": return "🌦️";
+        case "Snow": return "❄️";
+        case "Thunderstorm": return "⛈️";
+        case "Wind": return "🌬️";
+        default: return "🌡️";
     }
+}
 
-    setInterval(updateTime, 1000);
-    updateTime();
+fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        const temp = Math.round(data.main.temp);
+        const description = data.weather[0].description;
+        const mainWeather = data.weather[0].main;
 
-    // ===== OB-HAVO (OpenWeatherMap) =====
-    const apiKey = "840a8ec0caec0104a8633e901bdd873b"; // <-- SHU YERGA API KALITINGIZNI QO'YING
-    const city = "Tashkent";
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=uz&appid=${apiKey}`;
+        document.getElementById('weather-icon').textContent =
+            getWeatherIcon(mainWeather);
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('temp').textContent =
-                Math.round(data.main.temp) + "°C";
-            document.getElementById('desc').textContent =
-                data.weather[0].description;
-        })
-        .catch(() => {
-            document.getElementById('desc').textContent =
-                "Ob-havoni yuklab bo‘lmadi";
-        });
+        document.getElementById('weather-text').textContent =
+            description;
+
+        document.getElementById('weather-temp').textContent =
+            ` (${temp}°C)`;
+    })
+    .catch(() => {
+        document.getElementById('weather-text').textContent =
+            "Ob-havo mavjud emas";
+    });
 </script>
-
-</body>
-</html>
