@@ -1,6 +1,6 @@
 <div id="sidebar-weather">
     <div id="uz-time">--:--:--</div>
-    <div id="uz-date">---</div>
+    <div id="uz-date">--.--.----</div>
     <div id="uz-weather">
         <span id="weather-icon">⏳</span>
         <span id="weather-temp">--°C</span>
@@ -8,33 +8,32 @@
 </div>
 
 <script>
-/* ===== TOSHKENT REAL VAQTI ===== */
+/* ===== TOSHKENT REAL VAQTI (RAQAMLI) ===== */
 function updateTime() {
-    const now = new Date();
+    const now = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "Asia/Tashkent" })
+    );
+
+    const h = String(now.getHours()).padStart(2, "0");
+    const m = String(now.getMinutes()).padStart(2, "0");
+    const s = String(now.getSeconds()).padStart(2, "0");
+
+    const d = String(now.getDate()).padStart(2, "0");
+    const mo = String(now.getMonth() + 1).padStart(2, "0");
+    const y = now.getFullYear();
 
     document.getElementById("uz-time").textContent =
-        new Intl.DateTimeFormat("uz-UZ", {
-            timeZone: "Asia/Tashkent",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-        }).format(now);
+        `${h}:${m}:${s}`;
 
     document.getElementById("uz-date").textContent =
-        new Intl.DateTimeFormat("uz-UZ", {
-            timeZone: "Asia/Tashkent",
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        }).format(now);
+        `${d}.${mo}.${y}`;
 }
 
 setInterval(updateTime, 1000);
 updateTime();
 
 /* ===== OB-HAVO (FAKAT BELGI + HARORAT) ===== */
-const apiKey = "840a8ec0caec0104a8633e901bdd873b"; // OpenWeatherMap API kaliti
+const apiKey = "YOUR_API_KEY"; // OpenWeatherMap API kaliti
 const city = "Tashkent";
 const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
 
