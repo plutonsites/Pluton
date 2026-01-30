@@ -1,16 +1,12 @@
-<b id="sidebar-info">
-    Toshkent : 00:00:00 : 0°C
-</b>
+<b id="city-name">Toshkent</b>
+<b id="city-time">00:00:00</b>
+<b id="city-weather">0°C</b>
 
 <script>
 /* ===== SOZLAMALAR ===== */
-const CITY_NAME = "Toshkent";
-const API_KEY = "840a8ec0caec0104a8633e901bdd873b"; // OpenWeatherMap API kaliti
+const CITY_LABEL = "Toshkent";
 const CITY_QUERY = "Tashkent";
-
-/* ===== HOLAT ===== */
-let currentTemp = "--°C";
-let currentIcon = "";
+const API_KEY = "YOUR_API_KEY"; // OpenWeatherMap API kaliti
 
 /* ===== REAL VAQT (Toshkent) ===== */
 function updateTime() {
@@ -22,10 +18,12 @@ function updateTime() {
     const m = String(now.getMinutes()).padStart(2, "0");
     const s = String(now.getSeconds()).padStart(2, "0");
 
-    updateLine(`${h}:${m}:${s}`);
+    document.getElementById("city-time").textContent =
+        `${h}:${m}:${s}`;
 }
 
 setInterval(updateTime, 1000);
+updateTime();
 
 /* ===== OB-HAVO ===== */
 function weatherIcon(main) {
@@ -42,26 +40,24 @@ function weatherIcon(main) {
     }
 }
 
-function updateLine(time) {
-    document.getElementById("sidebar-info").textContent =
-        `${CITY_NAME} • ${time} • ${currentIcon} ${currentTemp}`;
-}
-
 function fetchWeather() {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${CITY_QUERY}&units=metric&appid=${API_KEY}`)
         .then(res => res.json())
         .then(data => {
-            currentTemp = Math.round(data.main.temp) + "°C";
-            currentIcon = weatherIcon(data.weather[0].main);
+            const temp = Math.round(data.main.temp) + "°C";
+            const icon = weatherIcon(data.weather[0].main);
+
+            document.getElementById("city-weather").textContent =
+                `${icon} ${temp}`;
         })
         .catch(() => {
-            currentTemp = "--°C";
-            currentIcon = "";
+            document.getElementById("city-weather").textContent = "--°C";
         });
 }
 
-/* ===== ISHGA TUSHIRISH ===== */
 fetchWeather();
 setInterval(fetchWeather, 10 * 60 * 1000);
-updateTime();
+
+/* ===== SHAHAR NOMI ===== */
+document.getElementById("city-name").textContent = CITY_LABEL;
 </script>
