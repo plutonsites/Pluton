@@ -66,6 +66,42 @@ li {
 }
 </style>
 
-<script type="text/javascript" charset="utf-8">
-    
+<script>
+    async function loadPrayerTimes() {
+  const latitude = 38.2675;   // Denov
+  const longitude = 67.8989;
+  const method = 2; // ISNA
+
+  const url = `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=${method}`;
+
+  const res = await fetch(url);
+  const data = await res.json();
+
+  const timings = data.data.timings;
+  const date = data.data.date.readable;
+
+  document.getElementById("date").innerText =
+    "📍 Denov tumani | 📅 " + date;
+
+  const prayers = {
+    "Bomdod": timings.Fajr,
+    "Quyosh": timings.Sunrise,
+    "Peshin": timings.Dhuhr,
+    "Asr": timings.Asr,
+    "Shom": timings.Maghrib,
+    "Xufton": timings.Isha
+  };
+
+  const ul = document.getElementById("times");
+  ul.innerHTML = "";
+
+  for (let name in prayers) {
+    const li = document.createElement("li");
+    li.innerHTML = `<span>${name}</span><span>${prayers[name]}</span>`;
+    ul.appendChild(li);
+  }
+}
+
+// Sahifa ochilishi bilan yuklanadi
+loadPrayerTimes();
 </script>
