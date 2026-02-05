@@ -31,6 +31,104 @@
 </body>
 </html>
 
-<style type="text/css" media="all">
-    
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 25px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 15px;
+}
+
+select, button {
+  padding: 8px;
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+button {
+  background: #1abc9c;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #16a085;
+}
+
+#date {
+  margin: 10px 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: rgba(255, 255, 255, 0.15);
+  margin: 6px 0;
+  padding: 8px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+}
 </style>
+
+<script>
+    async function getPrayerTimes() {
+  const city = document.getElementById("citySelect").value;
+  const country = "Uzbekistan";
+  const method = 2; // Islamic Society of North America
+
+  const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=${method}`;
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  const timings = data.data.timings;
+  const date = data.data.date.readable;
+
+  document.getElementById("date").innerText = "📅 " + date;
+
+  const prayerTimes = {
+    "Bomdod": timings.Fajr,
+    "Quyosh": timings.Sunrise,
+    "Peshin": timings.Dhuhr,
+    "Asr": timings.Asr,
+    "Shom": timings.Maghrib,
+    "Xufton": timings.Isha
+  };
+
+  const list = document.getElementById("prayerTimes");
+  list.innerHTML = "";
+
+  for (let prayer in prayerTimes) {
+    const li = document.createElement("li");
+    li.innerHTML = `<span>${prayer}</span><span>${prayerTimes[prayer]}</span>`;
+    list.appendChild(li);
+  }
+}
+
+// Sahifa ochilganda avtomatik Toshkentni ko‘rsatadi
+getPrayerTimes();
+</script>
