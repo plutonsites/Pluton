@@ -1,64 +1,36 @@
-<b id="city-name"></b> :
-<b id="city-time"></b> :
-<b id="city-weather"></b>
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>Namoz vaqtlari</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <div class="container">
+    <h1>🕌 Namoz Vaqtlari</h1>
 
-<script>
-/* ===== SOZLAMALAR ===== */
-const CITY_LABEL = "Toshkent";
-const CITY_QUERY = "Tashkent";
-const API_KEY = "840a8ec0caec0104a8633e901bdd873b"; // OpenWeatherMap API kaliti
+    <select id="citySelect">
+      <option value="Tashkent">Toshkent</option>
+      <option value="Samarkand">Samarqand</option>
+      <option value="Bukhara">Buxoro</option>
+      <option value="Andijan">Andijon</option>
+      <option value="Namangan">Namangan</option>
+    </select>
 
-/* ===== REAL VAQT (Toshkent) ===== */
-function updateTime() {
-    const now = new Date(
-        new Date().toLocaleString("en-US", { timeZone: "Asia/Tashkent" })
-    );
+    <button onclick="getPrayerTimes()">Ko‘rsatish</button>
 
-    const h = String(now.getHours()).padStart(2, "0");
-    const m = String(now.getMinutes()).padStart(2, "0");
-    const s = String(now.getSeconds()).padStart(2, "0");
+    <div id="date"></div>
 
-    document.getElementById("city-time").textContent =
-        `${h}:${m}:${s}`;
-}
+    <ul id="prayerTimes">
+      <!-- JS orqali to‘ldiriladi -->
+    </ul>
+  </div>
 
-setInterval(updateTime, 1000);
-updateTime();
+  <script src="script.js"></script>
+</body>
+</html>
 
-/* ===== OB-HAVO ===== */
-function weatherIcon(main) {
-    switch (main) {
-        case "Clear": return "☀️";
-        case "Clouds": return "☁️";
-        case "Rain": return "🌧️";
-        case "Drizzle": return "🌦️";
-        case "Snow": return "❄️";
-        case "Thunderstorm": return "⛈️";
-        case "Mist":
-        case "Fog": return "🌫️";
-        default: return "🌡️";
-    }
-}
-
-function fetchWeather() {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${CITY_QUERY}&units=metric&appid=${API_KEY}`)
-        .then(res => res.json())
-        .then(data => {
-            const temp = Math.round(data.main.temp) + "°C";
-            const icon = weatherIcon(data.weather[0].main);
-
-            document.getElementById("city-weather").textContent =
-                `${icon} ${temp}`;
-        })
-        .catch(() => {
-            document.getElementById("city-weather").textContent = "--°C";
-        });
-}
-
-fetchWeather();
-setInterval(fetchWeather, 10 * 60 * 1000);
-
-/* ===== SHAHAR NOMI ===== */
-document.getElementById("city-name").textContent = CITY_LABEL;
-</script>
+<style type="text/css" media="all">
+    
+</style>
