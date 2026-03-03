@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const hozir = new Date();
 
-        // ERA (1 = milodiy)
+        // ERA
         const era = hozir.getFullYear() >= 1 ? 1 : 0;
 
         // ASR
@@ -69,6 +69,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // YIL
         const yil = hozir.getFullYear();
+
+        // KUN
+        const kun = hozir.getDate();
 
         // OY NOMLARI
         const oylar = [
@@ -86,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
             era + "-era, " +
             asr + "-asr, " +
             yil + "-yil " +
-            oyNomi + ", " +
+            kun + "-" + oyNomi + ", " +
             soat + ":" + daqiqa + ":" + soniya;
     }
 
