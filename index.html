@@ -52,72 +52,42 @@
   
   <p>Bu sayt ilova kabi ishlaydi 🚀</p>
   
-  <b id="yil"></b><br>
-<b id="oy"></b><br>
-<b id="hafta"></b><br>
-<b id="kun"></b><br>
-<b id="fasl"></b>
+  <b id="vaqt"></b>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
     function yangila() {
+
         const hozir = new Date();
 
-        // ====== YIL ======
-        const keyingiYil = new Date(hozir.getFullYear() + 1, 0, 1);
-        const yilFarq = keyingiYil - hozir;
+        // ERA (1 = milodiy)
+        const era = hozir.getFullYear() >= 1 ? 1 : 0;
 
-        // ====== OY ======
-        const keyingiOy = new Date(hozir.getFullYear(), hozir.getMonth() + 1, 1);
-        const oyFarq = keyingiOy - hozir;
+        // ASR
+        const asr = Math.floor((hozir.getFullYear() - 1) / 100) + 1;
 
-        // ====== HAFTA ======
-        const haftaKuni = hozir.getDay(); // 0=Yakshanba
-        const haftaOxiri = new Date(hozir);
-        haftaOxiri.setDate(hozir.getDate() + (7 - haftaKuni));
-        haftaOxiri.setHours(0,0,0,0);
-        const haftaFarq = haftaOxiri - hozir;
+        // YIL
+        const yil = hozir.getFullYear();
 
-        // ====== KUN ======
-        const ertangiKun = new Date(hozir);
-        ertangiKun.setDate(hozir.getDate() + 1);
-        ertangiKun.setHours(0,0,0,0);
-        const kunFarq = ertangiKun - hozir;
+        // OY NOMLARI
+        const oylar = [
+            "Yanvar","Fevral","Mart","Aprel","May","Iyun",
+            "Iyul","Avgust","Sentabr","Oktabr","Noyabr","Dekabr"
+        ];
+        const oyNomi = oylar[hozir.getMonth()];
 
-        function format(farq) {
-            const k = Math.floor(farq / (1000*60*60*24));
-            const s = Math.floor((farq / (1000*60*60)) % 24);
-            const d = Math.floor((farq / (1000*60)) % 60);
-            const son = Math.floor((farq / 1000) % 60);
-            return k+"-kun "+String(s).padStart(2,'0')+
-                   " soat "+String(d).padStart(2,'0')+
-                   " daqiqa "+String(son).padStart(2,'0')+" soniya";
-        }
+        // VAQT
+        const soat = String(hozir.getHours()).padStart(2,'0');
+        const daqiqa = String(hozir.getMinutes()).padStart(2,'0');
+        const soniya = String(hozir.getSeconds()).padStart(2,'0');
 
-        document.getElementById("yil").textContent =
-            "Yil tugashiga " + format(yilFarq) + " qoldi.";
-
-        document.getElementById("oy").textContent =
-            "Oy tugashiga " + format(oyFarq) + " qoldi.";
-
-        document.getElementById("hafta").textContent =
-            "Hafta tugashiga " + format(haftaFarq) + " qoldi.";
-
-        document.getElementById("kun").textContent =
-            "Kun tugashiga " + format(kunFarq) + " qoldi.";
-
-        // ====== FASL ======
-        const oy = hozir.getMonth() + 1;
-        let fasl = "";
-
-        if (oy >= 3 && oy <= 5) fasl = "Bahor";
-        else if (oy >= 6 && oy <= 8) fasl = "Yoz";
-        else if (oy >= 9 && oy <= 11) fasl = "Kuz";
-        else fasl = "Qish";
-
-        document.getElementById("fasl").textContent =
-            "Joriy fasl: " + fasl;
+        document.getElementById("vaqt").textContent =
+            era + "-era, " +
+            asr + "-asr, " +
+            yil + "-yil " +
+            oyNomi + ", " +
+            soat + ":" + daqiqa + ":" + soniya;
     }
 
     yangila();
