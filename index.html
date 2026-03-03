@@ -52,40 +52,76 @@
   
   <p>Bu sayt ilova kabi ishlaydi 🚀</p>
   
-  <b id="countdown"></b>
+  <b id="yil"></b><br>
+<b id="oy"></b><br>
+<b id="hafta"></b><br>
+<b id="kun"></b><br>
+<b id="fasl"></b>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    function yilOxirigacha() {
-
+    function yangila() {
         const hozir = new Date();
 
-        // Keyingi yil 1-yanvar 00:00:00
-        const keyingiYil = new Date(hozir.getFullYear() + 1, 0, 1, 0, 0, 0);
+        // ====== YIL ======
+        const keyingiYil = new Date(hozir.getFullYear() + 1, 0, 1);
+        const yilFarq = keyingiYil - hozir;
 
-        const farq = keyingiYil - hozir;
+        // ====== OY ======
+        const keyingiOy = new Date(hozir.getFullYear(), hozir.getMonth() + 1, 1);
+        const oyFarq = keyingiOy - hozir;
 
-        if (farq <= 0) {
-            document.getElementById("countdown").textContent = "Yangi yil boshlandi!";
-            return;
+        // ====== HAFTA ======
+        const haftaKuni = hozir.getDay(); // 0=Yakshanba
+        const haftaOxiri = new Date(hozir);
+        haftaOxiri.setDate(hozir.getDate() + (7 - haftaKuni));
+        haftaOxiri.setHours(0,0,0,0);
+        const haftaFarq = haftaOxiri - hozir;
+
+        // ====== KUN ======
+        const ertangiKun = new Date(hozir);
+        ertangiKun.setDate(hozir.getDate() + 1);
+        ertangiKun.setHours(0,0,0,0);
+        const kunFarq = ertangiKun - hozir;
+
+        function format(farq) {
+            const k = Math.floor(farq / (1000*60*60*24));
+            const s = Math.floor((farq / (1000*60*60)) % 24);
+            const d = Math.floor((farq / (1000*60)) % 60);
+            const son = Math.floor((farq / 1000) % 60);
+            return k+"-k "+String(s).padStart(2,'0')+
+                   " s "+String(d).padStart(2,'0')+
+                   " d "+String(son).padStart(2,'0')+" s";
         }
 
-        const kun = Math.floor(farq / (1000 * 60 * 60 * 24));
-        const soat = Math.floor((farq / (1000 * 60 * 60)) % 24);
-        const daqiqa = Math.floor((farq / (1000 * 60)) % 60);
-        const soniya = Math.floor((farq / 1000) % 60);
+        document.getElementById("yil").textContent =
+            "Yil tugashiga " + format(yilFarq) + " qoldi.";
 
-        document.getElementById("countdown").textContent =
-            "Yil tugashiga " +
-            kun + "-kun " +
-            String(soat).padStart(2,'0') + " soat " +
-            String(daqiqa).padStart(2,'0') + " daqiqa " +
-            String(soniya).padStart(2,'0') + " so qoldi.";
+        document.getElementById("oy").textContent =
+            "Oy tugashiga " + format(oyFarq) + " qoldi.";
+
+        document.getElementById("hafta").textContent =
+            "Hafta tugashiga " + format(haftaFarq) + " qoldi.";
+
+        document.getElementById("kun").textContent =
+            "Kun tugashiga " + format(kunFarq) + " qoldi.";
+
+        // ====== FASL ======
+        const oy = hozir.getMonth() + 1;
+        let fasl = "";
+
+        if (oy >= 3 && oy <= 5) fasl = "Bahor";
+        else if (oy >= 6 && oy <= 8) fasl = "Yoz";
+        else if (oy >= 9 && oy <= 11) fasl = "Kuz";
+        else fasl = "Qish";
+
+        document.getElementById("fasl").textContent =
+            "Joriy fasl: " + fasl;
     }
 
-    yilOxirigacha();
-    setInterval(yilOxirigacha, 1000);
+    yangila();
+    setInterval(yangila, 1000);
 
 });
 </script>
