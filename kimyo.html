@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elektron konfiguratsiya animatsiyasi</title>
+<title>Tellurium (Te) Elektron Konfiguratsiyasi</title>
 
 <style>
 body{
@@ -12,32 +12,31 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  width: 90%;
   height:100vh;
   overflow:hidden;
 }
 
 .atom{
   position:relative;
-  width:600px;
-  height:600px;
+  width:800px;
+  height:800px;
 }
 
 .nucleus{
   position:absolute;
-  width:40px;
-  height:40px;
+  width:50px;
+  height:50px;
   background:#f43f5e;
   border-radius:50%;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  box-shadow:0 0 20px #f43f5e;
+  box-shadow:0 0 25px #f43f5e;
 }
 
 .orbit{
   position:absolute;
-  border:1px solid rgba(255,255,255,0.2);
+  border:1px solid rgba(255,255,255,0.15);
   border-radius:50%;
   top:50%;
   left:50%;
@@ -46,13 +45,12 @@ body{
 
 .electron{
   position:absolute;
-  width:8px;
-  height:8px;
+  width:7px;
+  height:7px;
   background:#38bdf8;
   border-radius:50%;
   top:50%;
   left:50%;
-  transform-origin:center;
 }
 
 </style>
@@ -83,7 +81,7 @@ function createOrbit(radius, electronCount, speed){
 
     function animate(){
       angle += speed;
-      electron.style.transform=
+      electron.style.transform =
         `rotate(${angle}deg) translate(${radius}px) rotate(-${angle}deg)`;
       requestAnimationFrame(animate);
     }
@@ -91,16 +89,21 @@ function createOrbit(radius, electronCount, speed){
   }
 }
 
-/* KONFIGURATSIYA */
-/* 1s2 2s2 2p6 3s2 3p6 4s2 3d8 */
+/* ELEKTRON KONFIGURATSIYA */
+/* 1s2 */
+createOrbit(60,2,0.9);
 
-createOrbit(50,2,0.8);   // 1s2
-createOrbit(90,2,0.7);   // 2s2
-createOrbit(120,6,0.6);  // 2p6
-createOrbit(160,2,0.5);  // 3s2
-createOrbit(190,6,0.45); // 3p6
-createOrbit(230,2,0.4);  // 4s2
-createOrbit(280,8,0.35); // 3d8
+/* 2s2 2p6 */
+createOrbit(100,8,0.8);
+
+/* 3s2 3p6 3d10 */
+createOrbit(150,18,0.7);
+
+/* 4s2 4p6 4d10 */
+createOrbit(210,18,0.6);
+
+/* 5s2 5p4 */
+createOrbit(270,6,0.5);
 
 </script>
 
