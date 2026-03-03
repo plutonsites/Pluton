@@ -60,8 +60,42 @@
   
   <b id="countdown"></b>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Tugash sanasi (misol)
+    const tugash = new Date("2026-01-01 00:00:00").getTime();
+
+    function yangila() {
+        const hozir = new Date().getTime();
+        const farq = tugash - hozir;
+
+        if (farq <= 0) {
+            document.getElementById("countdown").textContent = "00:00:00";
+            clearInterval(timer);
+            return;
+        }
+
+        const kun = Math.floor(farq / (1000 * 60 * 60 * 24));
+        const soat = Math.floor((farq / (1000 * 60 * 60)) % 24);
+        const minut = Math.floor((farq / (1000 * 60)) % 60);
+        const soniya = Math.floor((farq / 1000) % 60);
+
+        document.getElementById("countdown").textContent =
+            kun + " kun " +
+            String(soat).padStart(2,'0') + ":" +
+            String(minut).padStart(2,'0') + ":" +
+            String(soniya).padStart(2,'0');
+    }
+
+    yangila();
+    const timer = setInterval(yangila, 1000);
+
+});
+</script>
+
   <script src="app.js"></script>
-  <script src="script.js"></script>
+  
 
 </body>
 </html>
