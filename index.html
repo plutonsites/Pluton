@@ -57,33 +57,35 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Tugash sanasi (misol)
-    const tugash = new Date("2027-01-01 00:00:00").getTime();
+    function yilOxirigacha() {
 
-    function yangila() {
-        const hozir = new Date().getTime();
-        const farq = tugash - hozir;
+        const hozir = new Date();
+
+        // Keyingi yil 1-yanvar 00:00:00
+        const keyingiYil = new Date(hozir.getFullYear() + 1, 0, 1, 0, 0, 0);
+
+        const farq = keyingiYil - hozir;
 
         if (farq <= 0) {
-            document.getElementById("countdown").textContent = "00:00:00";
-            clearInterval(timer);
+            document.getElementById("countdown").textContent = "Yangi yil boshlandi!";
             return;
         }
 
         const kun = Math.floor(farq / (1000 * 60 * 60 * 24));
         const soat = Math.floor((farq / (1000 * 60 * 60)) % 24);
-        const minut = Math.floor((farq / (1000 * 60)) % 60);
+        const daqiqa = Math.floor((farq / (1000 * 60)) % 60);
         const soniya = Math.floor((farq / 1000) % 60);
 
         document.getElementById("countdown").textContent =
-            kun + " kun " +
-            String(soat).padStart(2,'0') + ":" +
-            String(minut).padStart(2,'0') + ":" +
-            String(soniya).padStart(2,'0');
+            "Yil tugashiga " +
+            kun + "-k " +
+            String(soat).padStart(2,'0') + " s " +
+            String(daqiqa).padStart(2,'0') + " d " +
+            String(soniya).padStart(2,'0') + " s qoldi.";
     }
 
-    yangila();
-    const timer = setInterval(yangila, 1000);
+    yilOxirigacha();
+    setInterval(yilOxirigacha, 1000);
 
 });
 </script>
